@@ -35,7 +35,7 @@
     }
 
     addMove(row, col) {
-      if (this.isCellOpen(row, col) && this._winner === '') {
+      if (this.isCellOpen(row, col) && this._status.length > 1) {
         this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
         this._turn += 1;
         renderGrid();
