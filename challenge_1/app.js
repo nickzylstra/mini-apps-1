@@ -34,18 +34,32 @@
       return this.getCellValue(row, col) === this._openMoveCellChar;
     }
 
+    isGameOver() {
+      return this._status !== 'game in progress!';
+    }
+
     addMove(row, col) {
-      if (this.isCellOpen(row, col) && this._status.length > 1) {
+      if (this.isCellOpen(row, col) && !this.isGameOver()) {
         this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
         this._turn += 1;
         renderGrid();
+        this.getStatus();
       }
     }
 
     getStatus() {
-      // logic to see if a player has won
-      // if yes
-      // updates status
+      // check if a player has won or stalemate
+      let newStatus;
+      if (this._turn === 10) {
+        newStatus = 'stalemate!';
+      }
+
+      // update status if change
+      if (newStatus) {
+        this._status = newStatus;
+        renderGameStatus();
+      }
+
       return this._status;
     }
   }
@@ -102,6 +116,7 @@
     resetGame();
   };
 
+  // initializes app controllers
   const initializeControllers = () => {
     const grid = document.getElementById('grid');
     grid.addEventListener('click', handleMoveClick);
