@@ -18,3 +18,11 @@ const createGrid = () => {
 };
 
 createGrid();
+
+const resetGame = () => {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  createGrid();
+};
+
+resetGame();
