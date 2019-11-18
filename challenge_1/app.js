@@ -4,8 +4,8 @@
   // MODEL
   // -------------------------------------------------------
   // DS for game
-  let currentGame;
-  class Game {
+  let modelCurrentGame;
+  class ModelGame {
     constructor() {
       this._size = 3;
       this._openMoveCellChar = '_';
@@ -42,7 +42,7 @@
       if (this.isCellOpen(row, col) && !this.isGameOver()) {
         this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
         this._turn += 1;
-        renderGrid();
+        renderGrid(modelCurrentGame);
         this.getStatus();
       }
     }
@@ -57,7 +57,7 @@
       // update status if change
       if (newStatus) {
         this._status = newStatus;
-        renderGameStatus();
+        renderGameStatus(modelCurrentGame);
       }
 
       return this._status;
@@ -65,20 +65,20 @@
   }
 
   // resets game
-  const resetGame = () => {
-    currentGame = new Game();
-    renderGrid();
-    renderGameStatus();
+  const modelResetGame = () => {
+    modelCurrentGame = new ModelGame();
+    renderGrid(modelCurrentGame);
+    renderGameStatus(modelCurrentGame);
   };
 
   // VIEWS
   // -------------------------------------------------------
   // renders game grid
-  const renderGrid = () => {
+  const renderGrid = (game) => {
     const grid = document.getElementById('grid');
     grid.innerHTML = '';
 
-    const size = currentGame.getSize();
+    const size = game.getSize();
     for (let i = 0; i < size; i += 1) {
       const row = document.createElement('tr');
       row.setAttribute('id', `r${i}`);
@@ -87,7 +87,7 @@
         const cell = document.createElement('td');
         cell.setAttribute('id', `r${i}c${j}`);
         cell.setAttribute('class', 'cell');
-        cell.innerHTML = currentGame.getCellValue(i, j);
+        cell.innerHTML = game.getCellValue(i, j);
         row.appendChild(cell);
       }
 
@@ -95,9 +95,9 @@
     }
   };
 
-  const renderGameStatus = () => {
+  const renderGameStatus = (game) => {
     const statusEl = document.getElementById('game-status');
-    const status = currentGame.getStatus();
+    const status = game.getStatus();
     statusEl.innerHTML = status;
   };
 
@@ -108,12 +108,12 @@
     const clickedCell = e.target;
     const row = clickedCell.getAttribute('id')[1];
     const col = clickedCell.getAttribute('id')[3];
-    currentGame.addMove(row, col);
+    modelCurrentGame.addMove(row, col);
   };
 
   // click handler for new game button
   const handleNewGameButtonClick = () => {
-    resetGame();
+    modelResetGame();
   };
 
   // initializes app controllers
@@ -129,7 +129,7 @@
   // -------------------------------------------------------
   // initializes app
   (function initializeApp() {
-    resetGame();
+    modelResetGame();
     initializeControllers();
   }());
 })();
