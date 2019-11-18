@@ -7,9 +7,10 @@
   let currentGame;
   class Game {
     constructor() {
-      this._turn = 1;
       this._size = 3;
       this._openMoveCellChar = '_';
+      this._turn = 1;
+      this._status = 'game in progress!';
 
       const emptyGrid = [];
       for (let i = 0; i < this._size; i += 1) {
@@ -34,11 +35,18 @@
     }
 
     addMove(row, col) {
-      if (this.isCellOpen(row, col)) {
+      if (this.isCellOpen(row, col) && this._winner === '') {
         this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
         this._turn += 1;
         renderGrid();
       }
+    }
+
+    getStatus() {
+      // logic to see if a player has won
+      // if yes
+      // updates status
+      return this._status;
     }
   }
 
@@ -46,6 +54,7 @@
   const resetGame = () => {
     currentGame = new Game();
     renderGrid();
+    renderGameStatus();
   };
 
   // VIEWS
@@ -70,6 +79,12 @@
 
       grid.appendChild(row);
     }
+  };
+
+  const renderGameStatus = () => {
+    const statusEl = document.getElementById('game-status');
+    const status = currentGame.getStatus();
+    statusEl.innerHTML = status;
   };
 
   // CONTROLLERS
