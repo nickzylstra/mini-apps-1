@@ -4,15 +4,20 @@ let currentGame;
 class Game {
   constructor() {
     this._turn = 1;
+    this._size = 3;
 
     const emptyGrid = [];
-    for (let i = 0; i < 3; i += 1) {
+    for (let i = 0; i < this._size; i += 1) {
       emptyGrid.push([]);
-      for (let j = 0; j < 3; j += 1) {
+      for (let j = 0; j < this._size; j += 1) {
         emptyGrid[i].push('_');
       }
     }
     this._grid = emptyGrid;
+  }
+
+  getSize() {
+    return this._size;
   }
 
   getBoxValue(row, col) {
@@ -28,12 +33,13 @@ class Game {
 
 // renders game grid
 const renderGrid = () => {
+  const size = currentGame.getSize();
   const grid = document.getElementById('grid');
-  for (let i = 0; i < 3; i += 1) {
+  for (let i = 0; i < size; i += 1) {
     const row = document.createElement('tr');
     row.setAttribute('id', `r${i}`);
 
-    for (let j = 0; j < 3; j += 1) {
+    for (let j = 0; j < size; j += 1) {
       const cell = document.createElement('td');
       cell.setAttribute('id', `r${i}c${j}`);
       cell.setAttribute('class', 'cell');
