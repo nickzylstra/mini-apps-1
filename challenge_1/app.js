@@ -1,17 +1,22 @@
+/* eslint-disable no-underscore-dangle */
 // DS for game
 let currentGame;
 class Game {
   constructor() {
-    this.turn = 1;
+    this._turn = 1;
+
     const emptyGrid = [];
     for (let i = 0; i < 3; i += 1) {
       emptyGrid.push([]);
       for (let j = 0; j < 3; j += 1) {
-        emptyGrid[i].push(false);
+        emptyGrid[i].push('_');
       }
     }
+    this._grid = emptyGrid;
+  }
 
-    this.grid = emptyGrid;
+  getBoxValue(row, col) {
+    return this._grid[row][col];
   }
 
   // addMove(cell) {
@@ -32,7 +37,7 @@ const renderGrid = () => {
       const cell = document.createElement('td');
       cell.setAttribute('id', `r${i}c${j}`);
       cell.setAttribute('class', 'cell');
-      cell.innerHTML = '_';
+      cell.innerHTML = currentGame.getBoxValue(i, j);
       row.appendChild(cell);
     }
 
