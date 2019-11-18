@@ -33,9 +33,12 @@
       return this.getCellValue(row, col) === this._openMoveCellChar;
     }
 
-    addMove(cell) {
-      // if (!this.grid[row][col]) {
-      // }
+    addMove(row, col) {
+      if (this.isCellOpen(row, col)) {
+        this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
+        this._turn += 1;
+        renderGrid();
+      }
     }
   }
 
@@ -76,9 +79,7 @@
     const clickedCell = e.target;
     const row = clickedCell.getAttribute('id')[1];
     const col = clickedCell.getAttribute('id')[3];
-    if (currentGame.isCellOpen(row, col)) {
-      currentGame.addMove(row, col);
-    }
+    currentGame.addMove(row, col);
   };
 
   // click handler for new game button
