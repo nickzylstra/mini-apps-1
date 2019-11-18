@@ -24,12 +24,21 @@ class Game {
     return this._grid[row][col];
   }
 
-  // addMove(cell) {
-  //   if (!this.grid[row][col]) {
-
-  //   }
-  // }
+  addMove(cell) {
+    // if (!this.grid[row][col]) {
+    // }
+  }
 }
+
+// click handler for moves
+const moveClickHandler = (e) => {
+  const clickedCell = e.target;
+  const row = clickedCell.getAttribute('id')[1];
+  const col = clickedCell.getAttribute('id')[3];
+
+  debugger;
+};
+
 
 // renders game grid
 const renderGrid = () => {
@@ -50,12 +59,7 @@ const renderGrid = () => {
     grid.appendChild(row);
   }
 
-  // click handler for boxes
-  const gridClickHandler = (e) => {
-
-  };
-
-  grid.addEventListener('click', gridClickHandler);
+  grid.addEventListener('click', moveClickHandler);
 };
 
 // starts new game
