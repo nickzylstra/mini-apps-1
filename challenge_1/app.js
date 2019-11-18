@@ -1,6 +1,8 @@
+// DS for game
+let currentGame;
 class Game {
   constructor() {
-    this.turn = 0;
+    this.turn = 1;
     const emptyGrid = [];
     for (let i = 0; i < 3; i += 1) {
       emptyGrid.push([]);
@@ -12,13 +14,15 @@ class Game {
     this.grid = emptyGrid;
   }
 
-  addMove() {
+  // addMove(cell) {
+  //   if (!this.grid[row][col]) {
 
-  }
+  //   }
+  // }
 }
 
-// creates empty game grid
-const createGrid = () => {
+// renders game grid
+const renderGrid = () => {
   const grid = document.getElementById('grid');
   for (let i = 0; i < 3; i += 1) {
     const row = document.createElement('tr');
@@ -45,8 +49,11 @@ const createGrid = () => {
 
 // starts new game
 const resetGame = () => {
+  currentGame = new Game();
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
-  createGrid();
+  renderGrid();
 };
+
+// initializes app
 resetGame();
