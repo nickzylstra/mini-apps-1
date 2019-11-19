@@ -8,7 +8,7 @@
   class ModelGame {
     constructor() {
       this._size = 3;
-      this._openMoveCellChar = '_';
+      this._openMoveMark = '_';
       this._turn = 1;
       this._status = 'game in progress!';
 
@@ -16,7 +16,7 @@
       for (let i = 0; i < this._size; i += 1) {
         emptyGrid.push([]);
         for (let j = 0; j < this._size; j += 1) {
-          emptyGrid[i].push(this._openMoveCellChar);
+          emptyGrid[i].push(this._openMoveMark);
         }
       }
       this._grid = emptyGrid;
@@ -31,7 +31,7 @@
     }
 
     isCellOpen(row, col) {
-      return this.getCellValue(row, col) === this._openMoveCellChar;
+      return this.getCellValue(row, col) === this._openMoveMark;
     }
 
     isGameOver() {
@@ -50,7 +50,7 @@
     hasRowWin() {
       for (let i = 0; i < this._size; i += 1) {
         const firstColMark = this._grid[i][0];
-        if (firstColMark !== this._openMoveCellChar) {
+        if (firstColMark !== this._openMoveMark) {
           for (let j = 1; j < this._size; j += 1) {
             const curColMark = this._grid[i][j];
             if (curColMark !== firstColMark) {
@@ -69,10 +69,10 @@
 
     hasColWin() {
       for (let i = 0; i < this._size; i += 1) {
-        const firstRowMark = this._grid[i][0];
-        if (firstRowMark !== this._openMoveCellChar) {
+        const firstRowMark = this._grid[0][i];
+        if (firstRowMark !== this._openMoveMark) {
           for (let j = 1; j < this._size; j += 1) {
-            const curRowMark = this._grid[i][j];
+            const curRowMark = this._grid[j][i];
             if (curRowMark !== firstRowMark) {
               break;
             }
@@ -88,7 +88,23 @@
     }
 
     hasDiagWin() {
-
+      const size = this._size;
+      let row = 0;
+      let col = 0;
+      const firstCellMark = this._grid[row][col];
+      if (firstCellMark !== this._openMoveMark) {
+        while (row < size) {
+          const curCellMark = this._grid[row][col];
+          if (curCellMark !== firstCellMark) {
+            break;
+          }
+          row += 1;
+          col += 1;
+          if (row === size) {
+            return firstCellMark;
+          }
+        }
+      }
       return false;
     }
 
@@ -98,7 +114,7 @@
 
     getStatus() {
       // check if a player has won or stalemate
-      let newStatus = this.hasWin();
+      const newStatus = this.hasWin();
       // update status if change
       if (newStatus) {
         this._status = `${newStatus} wins!`;
