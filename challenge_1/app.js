@@ -43,21 +43,67 @@
         this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
         this._turn += 1;
         renderGrid(modelCurrentGame);
-        this.getStatus();
+        renderGameStatus(this.getStatus());
       }
     }
 
-    getStatus() {
-      // check if a player has won or stalemate
-      let newStatus;
-      if (this._turn === 10) {
-        newStatus = 'stalemate!';
+    hasRowWin() {
+      for (let i = 0; i < this._size; i += 1) {
+        const firstColMark = this._grid[i][0];
+        for (let j = 1; j < this._size; j += 1) {
+          const curColMark = this._grid[i][j];
+          if (curColMark !== firstColMark) {
+            break;
+          }
+          if (j === this._size - 1) {
+            // found win
+            return firstColMark;
+          }
+        }
       }
+      // no win
+      return false;
+    }
 
-      // update status if change
-      if (newStatus) {
-        this._status = newStatus;
-        renderGameStatus(modelCurrentGame);
+    hasColWin() {
+      for (let i = 0; i < this._size; i += 1) {
+        const firstRowMark = this._grid[i][0];
+        for (let j = 1; j < this._size; j += 1) {
+          const curRowMark = this._grid[i][j];
+          if (curRowMark !== firstRowMark) {
+            break;
+          }
+          if (j === this._size - 1) {
+            // found win
+            return firstRowMark;
+          }
+        }
+      }
+      // no win
+      return false;
+    }
+
+    hasDiagWin() {
+
+      return false;
+    }
+
+    hasWin() {
+      return this.hasRowWin() || this.hasColWin() || this.hasDiagWin();
+    }
+
+    getStatus() {
+      if (this._turn > 1) {
+        // check if a player has won or stalemate
+        let newStatus = this.hasWin();
+        if (!newStatus && this._turn === 10) {
+          newStatus = 'stalemate!';
+        }
+
+        // update status if change
+        if (newStatus) {
+          this._status = `${newStatus} wins!`;
+        }
       }
 
       return this._status;
@@ -68,7 +114,7 @@
   const modelResetGame = () => {
     modelCurrentGame = new ModelGame();
     renderGrid(modelCurrentGame);
-    renderGameStatus(modelCurrentGame);
+    renderGameStatus(modelCurrentGame.getStatus());
   };
 
   // VIEWS
@@ -95,9 +141,8 @@
     }
   };
 
-  const renderGameStatus = (game) => {
+  const renderGameStatus = (status) => {
     const statusEl = document.getElementById('game-status');
-    const status = game.getStatus();
     statusEl.innerHTML = status;
   };
 
