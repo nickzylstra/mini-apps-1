@@ -214,13 +214,13 @@ window.addEventListener('DOMContentLoaded', () => {
       statusEl.innerHTML = status;
     },
 
-    renderNames: ({ playerNames, playerWins }) => {
+    renderSession: ({ playerNames, playerWins }) => {
       const sessionEl = document.getElementById('session');
       sessionEl.innerHTML = '';
 
       const player1 = document.createElement('div');
       const player1Name = document.createElement('span');
-      player1Name.innerHTML = `Name: ${playerNames[0]}`;
+      player1Name.innerHTML = `X's: ${playerNames[0]}`;
       player1.appendChild(player1Name);
       const p1Wins = document.createElement('span');
       p1Wins.innerHTML = ` - Wins: ${playerWins[0]}`;
@@ -229,7 +229,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       const player2 = document.createElement('div');
       const player2Name = document.createElement('span');
-      player2Name.innerHTML = `Name: ${playerNames[1]}`;
+      player2Name.innerHTML = `O's: ${playerNames[1]}`;
       player2.appendChild(player2Name);
       const p2Wins = document.createElement('span');
       p2Wins.innerHTML = ` - Wins: ${playerWins[1]}`;
@@ -255,7 +255,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const winner = modelCurrentGame.getWinner();
         if (winner !== null) {
           modelCurrentSession.addWin(winner);
-          views.renderNames(modelCurrentSession);
+          views.renderSession(modelCurrentSession);
         }
       }
     },
@@ -271,6 +271,8 @@ window.addEventListener('DOMContentLoaded', () => {
       views.renderGrid(modelCurrentGame);
       views.renderGameStatus(modelCurrentGame.getStatus());
     },
+
+    // add click handler to change names
   };
 
   // APP
@@ -282,7 +284,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // initializes views
   views.renderGrid(modelCurrentGame);
   views.renderGameStatus(modelCurrentGame.getStatus());
-  views.renderNames(modelCurrentSession);
+  views.renderSession(modelCurrentSession);
 
   // initializes controllers
   const grid = document.getElementById('grid');
