@@ -39,12 +39,13 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     addMove(row, col) {
+      let moveAdded = false;
       if (this.isCellOpen(row, col) && !this.isGameOver()) {
         this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
         this._turn += 1;
-        views.renderGrid(modelCurrentGame);
-        views.renderGameStatus(this.getStatus());
+        moveAdded = true;
       }
+      return moveAdded;
     }
 
     hasRowWin() {
@@ -108,7 +109,6 @@ window.addEventListener('DOMContentLoaded', () => {
       return false;
     }
 
-
     hasMinorDiagWin() {
       const size = this._size;
       let row = 0;
@@ -150,7 +150,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // resets game
-  const modelResetGame = () => {
+  const modelNewGame = () => {
     modelCurrentGame = new ModelGame();
     views.renderGrid(modelCurrentGame);
     views.renderGameStatus(modelCurrentGame.getStatus());
@@ -196,12 +196,16 @@ window.addEventListener('DOMContentLoaded', () => {
       const clickedCell = e.target;
       const row = clickedCell.getAttribute('id')[1];
       const col = clickedCell.getAttribute('id')[3];
-      modelCurrentGame.addMove(row, col);
+      const moveAdded = modelCurrentGame.addMove(row, col);
+      if (moveAdded) {
+        views.renderGrid(modelCurrentGame);
+        views.renderGameStatus(modelCurrentGame.getStatus());
+      }
     },
 
     // click handler for new game button
     handleNewGameButtonClick: () => {
-      modelResetGame();
+      modelNewGame();
     },
   };
 
@@ -209,7 +213,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------
   // initializes app
   (function initializeApp() {
-    modelResetGame();
+    modelNewGame();
 
     // initializes app controllers
     (function initializeControllers() {
