@@ -2,17 +2,20 @@
   "name": "challenge_2",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --inspect --ignore=node_modules,.git server/server.js"
+    "start": "nodemon --inspect server.js",
+    "build:dev": "webpack -w -d --config webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
     "express": "^4.17.1"
