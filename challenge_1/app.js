@@ -4,8 +4,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // MODEL
   // -------------------------------------------------------
   // DS for game
-  let modelCurrentGame;
-  class ModelGame {
+  class Game {
     constructor() {
       this._size = 3;
       this._openMoveMark = '_';
@@ -149,13 +148,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // resets game
-  const modelNewGame = () => {
-    modelCurrentGame = new ModelGame();
-    views.renderGrid(modelCurrentGame);
-    views.renderGameStatus(modelCurrentGame.getStatus());
-  };
-
   // VIEWS
   // -------------------------------------------------------
   const views = {
@@ -205,23 +197,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // click handler for new game button
     handleNewGameButtonClick: () => {
-      modelNewGame();
+      modelCurrentGame = new Game();
+      views.renderGrid(modelCurrentGame);
+      views.renderGameStatus(modelCurrentGame.getStatus());
     },
   };
 
   // APP
   // -------------------------------------------------------
   // initializes app
-  (function initializeApp() {
-    modelNewGame();
+  let modelCurrentGame = new Game();
+  views.renderGrid(modelCurrentGame);
+  views.renderGameStatus(modelCurrentGame.getStatus());
 
-    // initializes app controllers
-    (function initializeControllers() {
-      const grid = document.getElementById('grid');
-      grid.addEventListener('click', controllers.handleMoveClick);
+  // initializes app controllers
+  (function initializeControllers() {
+    const grid = document.getElementById('grid');
+    grid.addEventListener('click', controllers.handleMoveClick);
 
-      const newGameButton = document.getElementById('new-game-btn');
-      newGameButton.addEventListener('click', controllers.handleNewGameButtonClick);
-    }());
+    const newGameButton = document.getElementById('new-game-btn');
+    newGameButton.addEventListener('click', controllers.handleNewGameButtonClick);
   }());
 });
