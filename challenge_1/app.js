@@ -168,18 +168,18 @@ window.addEventListener('DOMContentLoaded', () => {
   // DS for session
   class Session {
     constructor() {
-      this._playerNames = ['Player 1', 'Player 2'];
-      this._playerWins = [0, 0];
-      this._lastWinner = 0;
+      this.playerNames = ['Player 1', 'Player 2'];
+      this.playerWins = [0, 0];
+      this.lastWinner = 0;
     }
 
     addWin(playerNum) {
-      this._lastWinner = playerNum;
-      this._playerWins[playerNum] += 1;
+      this.lastWinner = playerNum;
+      this.playerWins[playerNum] += 1;
     }
 
     changePlayerName(playerNum, playerName) {
-      this._playerNames[playerNum] = playerName;
+      this.playerNames[playerNum] = playerName;
     }
   }
 
@@ -213,6 +213,29 @@ window.addEventListener('DOMContentLoaded', () => {
       const statusEl = document.getElementById('game-status');
       statusEl.innerHTML = status;
     },
+
+    renderNames: ({ playerNames, playerWins }) => {
+      const sessionEl = document.getElementById('session');
+      sessionEl.innerHTML = '';
+
+      const player1 = document.createElement('div');
+      const player1Name = document.createElement('span');
+      player1Name.innerHTML = `Name: ${playerNames[0]}`;
+      player1.appendChild(player1Name);
+      const p1Wins = document.createElement('span');
+      p1Wins.innerHTML = ` - Wins: ${playerWins[0]}`;
+      player1.appendChild(p1Wins);
+      sessionEl.appendChild(player1);
+
+      const player2 = document.createElement('div');
+      const player2Name = document.createElement('span');
+      player2Name.innerHTML = `Name: ${playerNames[1]}`;
+      player2.appendChild(player2Name);
+      const p2Wins = document.createElement('span');
+      p2Wins.innerHTML = ` - Wins: ${playerWins[1]}`;
+      player2.appendChild(p2Wins);
+      sessionEl.appendChild(player2);
+    },
   };
 
   // CONTROLLERS
@@ -232,6 +255,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const winner = modelCurrentGame.getWinner();
         if (winner !== null) {
           modelCurrentSession.addWin(winner);
+          views.renderNames(modelCurrentSession);
         }
       }
     },
@@ -258,6 +282,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // initializes views
   views.renderGrid(modelCurrentGame);
   views.renderGameStatus(modelCurrentGame.getStatus());
+  views.renderNames(modelCurrentSession);
 
   // initializes controllers
   const grid = document.getElementById('grid');
