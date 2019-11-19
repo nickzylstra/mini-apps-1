@@ -42,8 +42,8 @@ window.addEventListener('DOMContentLoaded', () => {
       if (this.isCellOpen(row, col) && !this.isGameOver()) {
         this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
         this._turn += 1;
-        renderGrid(modelCurrentGame);
-        renderGameStatus(this.getStatus());
+        views.renderGrid(modelCurrentGame);
+        views.renderGameStatus(this.getStatus());
       }
     }
 
@@ -152,37 +152,40 @@ window.addEventListener('DOMContentLoaded', () => {
   // resets game
   const modelResetGame = () => {
     modelCurrentGame = new ModelGame();
-    renderGrid(modelCurrentGame);
-    renderGameStatus(modelCurrentGame.getStatus());
+    views.renderGrid(modelCurrentGame);
+    views.renderGameStatus(modelCurrentGame.getStatus());
   };
 
   // VIEWS
   // -------------------------------------------------------
-  // renders game grid
-  const renderGrid = (game) => {
-    const grid = document.getElementById('grid');
-    grid.innerHTML = '';
+  const views = {
+    // renders game grid
+    renderGrid: (game) => {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
 
-    const size = game.getSize();
-    for (let i = 0; i < size; i += 1) {
-      const row = document.createElement('tr');
-      row.setAttribute('id', `r${i}`);
+      const size = game.getSize();
+      for (let i = 0; i < size; i += 1) {
+        const row = document.createElement('tr');
+        row.setAttribute('id', `r${i}`);
 
-      for (let j = 0; j < size; j += 1) {
-        const cell = document.createElement('td');
-        cell.setAttribute('id', `r${i}c${j}`);
-        cell.setAttribute('class', 'cell');
-        cell.innerHTML = game.getCellValue(i, j);
-        row.appendChild(cell);
+        for (let j = 0; j < size; j += 1) {
+          const cell = document.createElement('td');
+          cell.setAttribute('id', `r${i}c${j}`);
+          cell.setAttribute('class', 'cell');
+          cell.innerHTML = game.getCellValue(i, j);
+          row.appendChild(cell);
+        }
+
+        grid.appendChild(row);
       }
+    },
 
-      grid.appendChild(row);
-    }
-  };
-
-  const renderGameStatus = (status) => {
-    const statusEl = document.getElementById('game-status');
-    statusEl.innerHTML = status;
+    // renders game status
+    renderGameStatus: (status) => {
+      const statusEl = document.getElementById('game-status');
+      statusEl.innerHTML = status;
+    },
   };
 
   // CONTROLLERS
