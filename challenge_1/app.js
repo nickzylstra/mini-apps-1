@@ -50,14 +50,16 @@
     hasRowWin() {
       for (let i = 0; i < this._size; i += 1) {
         const firstColMark = this._grid[i][0];
-        for (let j = 1; j < this._size; j += 1) {
-          const curColMark = this._grid[i][j];
-          if (curColMark !== firstColMark) {
-            break;
-          }
-          if (j === this._size - 1) {
-            // found win
-            return firstColMark;
+        if (firstColMark !== this._openMoveCellChar) {
+          for (let j = 1; j < this._size; j += 1) {
+            const curColMark = this._grid[i][j];
+            if (curColMark !== firstColMark) {
+              break;
+            }
+            if (j === this._size - 1) {
+              // found win
+              return firstColMark;
+            }
           }
         }
       }
@@ -68,14 +70,16 @@
     hasColWin() {
       for (let i = 0; i < this._size; i += 1) {
         const firstRowMark = this._grid[i][0];
-        for (let j = 1; j < this._size; j += 1) {
-          const curRowMark = this._grid[i][j];
-          if (curRowMark !== firstRowMark) {
-            break;
-          }
-          if (j === this._size - 1) {
-            // found win
-            return firstRowMark;
+        if (firstRowMark !== this._openMoveCellChar) {
+          for (let j = 1; j < this._size; j += 1) {
+            const curRowMark = this._grid[i][j];
+            if (curRowMark !== firstRowMark) {
+              break;
+            }
+            if (j === this._size - 1) {
+              // found win
+              return firstRowMark;
+            }
           }
         }
       }
@@ -93,17 +97,13 @@
     }
 
     getStatus() {
-      if (this._turn > 1) {
-        // check if a player has won or stalemate
-        let newStatus = this.hasWin();
-        if (!newStatus && this._turn === 10) {
-          newStatus = 'stalemate!';
-        }
-
-        // update status if change
-        if (newStatus) {
-          this._status = `${newStatus} wins!`;
-        }
+      // check if a player has won or stalemate
+      let newStatus = this.hasWin();
+      // update status if change
+      if (newStatus) {
+        this._status = `${newStatus} wins!`;
+      } else if (this._turn === 10) {
+        this._status = 'stalemate!';
       }
 
       return this._status;
