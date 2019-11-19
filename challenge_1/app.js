@@ -6,14 +6,16 @@ window.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------
   // DS for game
   let modelCurrentGame;
+  let modelCurrentSession;
   class ModelGame {
-    constructor() {
+    constructor(startingPlayer = 0) {
       this._size = 3;
       this._openMoveMark = '_';
       this._turn = 1;
       this._status = 'game in progress!';
       this._players = ['X', 'O'];
-      this._startingPlayer = 0;
+      this._startingPlayer = startingPlayer;
+      this._winner = null;
 
       const emptyGrid = [];
       for (let i = 0; i < this._size; i += 1) {
@@ -44,14 +46,31 @@ window.addEventListener('DOMContentLoaded', () => {
     addMove(row, col) {
       let moveAdded = false;
       if (this.isCellOpen(row, col) && !this.isGameOver()) {
-        const mark = this._turn % 2 === 0 ?
-          this._players[Math.abs(this._startingPlayer - 1)] :
-          this._players[this._startingPlayer];
+        const mark = this._turn % 2 === 0
+          ? this._players[Math.abs(this._startingPlayer - 1)]
+          : this._players[this._startingPlayer];
         this._grid[row][col] = mark;
         this._turn += 1;
         moveAdded = true;
+        this.updateStatus();
       }
       return moveAdded;
+    }
+
+    updateStatus() {
+      // check if a player has won or stalemate
+      const newStatus = this.hasWin();
+      // update status if change
+      if (newStatus) {
+        this._status = `${newStatus} wins!`;
+        this._winner = newStatus === this._players[0] ? 0 : 1;
+      } else if (this._turn === this._size * this._size + 1) {
+        this._status = 'stalemate!';
+      }
+    }
+
+    getStatus() {
+      return this._status;
     }
 
     hasRowWin() {
@@ -141,31 +160,27 @@ window.addEventListener('DOMContentLoaded', () => {
       return this.hasRowWin() || this.hasColWin() || this.hasMajorDiagWin() || this.hasMinorDiagWin();
     }
 
-    getStatus() {
-      // check if a player has won or stalemate
-      const newStatus = this.hasWin();
-      // update status if change
-      if (newStatus) {
-        this._status = `${newStatus} wins!`;
-      } else if (this._turn === 10) {
-        this._status = 'stalemate!';
-      }
-
-      return this._status;
+    getWinner() {
+      return this._winner;
     }
   }
 
   // DS for session
   class Session {
     constructor() {
-      this._player1Name = 'Player 1';
-      this._player2Name = 'Player 2';
-      this._lastWinner = this._player1Name;
-      this._player1Wins = 0;
-      this._player2Wins = 0;
+      this._playerNames = ['Player 1', 'Player 2'];
+      this._playerWins = [0, 0];
+      this._lastWinner = 0;
     }
 
-    addWin
+    addWin(playerNum) {
+      this._lastWinner = playerNum;
+      this._playerWins[playerNum] += 1;
+    }
+
+    changePlayerName(playerNum, playerName) {
+      this._playerNames[playerNum] = playerName;
+    }
   }
 
   // VIEWS
@@ -213,12 +228,22 @@ window.addEventListener('DOMContentLoaded', () => {
         // could refactor to update just cell affected by move
         views.renderGrid(modelCurrentGame);
         views.renderGameStatus(modelCurrentGame.getStatus());
+
+        const winner = modelCurrentGame.getWinner();
+        if (winner !== null) {
+          modelCurrentSession.addWin(winner);
+        }
       }
     },
 
     // click handler for new game button
     handleNewGameButtonClick: () => {
-      modelCurrentGame = new ModelGame();
+      const winner = modelCurrentGame.getWinner();
+      let nextStartingPlayer = 0;
+      if (winner !== null) {
+        nextStartingPlayer = winner ? 0 : 1;
+      }
+      modelCurrentGame = new ModelGame(nextStartingPlayer);
       views.renderGrid(modelCurrentGame);
       views.renderGameStatus(modelCurrentGame.getStatus());
     },
@@ -227,6 +252,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // APP
   // -------------------------------------------------------
   // initializes model
+  modelCurrentSession = new Session();
   modelCurrentGame = new ModelGame();
 
   // initializes views
