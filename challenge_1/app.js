@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-underscore-dangle */
-(() => {
+window.addEventListener('DOMContentLoaded', () => {
   // MODEL
   // -------------------------------------------------------
   // DS for game
@@ -216,4 +216,4 @@
     modelResetGame();
     initializeControllers();
   }());
-})();
+});
