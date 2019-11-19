@@ -10,11 +10,12 @@ window.addEventListener('DOMContentLoaded', () => {
           rows="50"
           cols="50"
           name="jsoninput"
+          id="jsoninput"
           placeholder="Input JSON..."
         ></textarea>
     </div>
     <div>
-      <input type="submit" value="Submit JSON">
+      <input type="submit" value="Submit">
     </div>
   </form>
   `);
