@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-underscore-dangle */
 window.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +12,8 @@ window.addEventListener('DOMContentLoaded', () => {
       this._openMoveMark = '_';
       this._turn = 1;
       this._status = 'game in progress!';
+      this._players = ['X', 'O'];
+      this._startingPlayer = 0;
 
       const emptyGrid = [];
       for (let i = 0; i < this._size; i += 1) {
@@ -41,7 +44,10 @@ window.addEventListener('DOMContentLoaded', () => {
     addMove(row, col) {
       let moveAdded = false;
       if (this.isCellOpen(row, col) && !this.isGameOver()) {
-        this._grid[row][col] = this._turn % 2 === 0 ? 'O' : 'X';
+        const mark = this._turn % 2 === 0 ?
+          this._players[Math.abs(this._startingPlayer - 1)] :
+          this._players[this._startingPlayer];
+        this._grid[row][col] = mark;
         this._turn += 1;
         moveAdded = true;
       }
@@ -147,6 +153,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
       return this._status;
     }
+  }
+
+  // DS for session
+  class Session {
+    constructor() {
+      this._player1Name = 'Player 1';
+      this._player2Name = 'Player 2';
+      this._lastWinner = this._player1Name;
+      this._player1Wins = 0;
+      this._player2Wins = 0;
+    }
+
+    addWin
   }
 
   // VIEWS
