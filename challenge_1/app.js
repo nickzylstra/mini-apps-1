@@ -131,6 +131,7 @@
     }
 
     hasWin() {
+      // eslint-disable-next-line max-len
       return this.hasRowWin() || this.hasColWin() || this.hasMajorDiagWin() || this.hasMinorDiagWin();
     }
 
