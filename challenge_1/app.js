@@ -4,7 +4,8 @@ window.addEventListener('DOMContentLoaded', () => {
   // MODEL
   // -------------------------------------------------------
   // DS for game
-  class Game {
+  let modelCurrentGame;
+  class ModelGame {
     constructor() {
       this._size = 3;
       this._openMoveMark = '_';
@@ -190,6 +191,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const col = clickedCell.getAttribute('id')[3];
       const moveAdded = modelCurrentGame.addMove(row, col);
       if (moveAdded) {
+        // could refactor to update just cell affected by move
         views.renderGrid(modelCurrentGame);
         views.renderGameStatus(modelCurrentGame.getStatus());
       }
@@ -197,7 +199,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // click handler for new game button
     handleNewGameButtonClick: () => {
-      modelCurrentGame = new Game();
+      modelCurrentGame = new ModelGame();
       views.renderGrid(modelCurrentGame);
       views.renderGameStatus(modelCurrentGame.getStatus());
     },
@@ -205,17 +207,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // APP
   // -------------------------------------------------------
-  // initializes app
-  let modelCurrentGame = new Game();
+  // initializes model
+  modelCurrentGame = new ModelGame();
+
+  // initializes views
   views.renderGrid(modelCurrentGame);
   views.renderGameStatus(modelCurrentGame.getStatus());
 
-  // initializes app controllers
-  (function initializeControllers() {
-    const grid = document.getElementById('grid');
-    grid.addEventListener('click', controllers.handleMoveClick);
+  // initializes controllers
+  const grid = document.getElementById('grid');
+  grid.addEventListener('click', controllers.handleMoveClick);
 
-    const newGameButton = document.getElementById('new-game-btn');
-    newGameButton.addEventListener('click', controllers.handleNewGameButtonClick);
-  }());
+  const newGameButton = document.getElementById('new-game-btn');
+  newGameButton.addEventListener('click', controllers.handleNewGameButtonClick);
 });
