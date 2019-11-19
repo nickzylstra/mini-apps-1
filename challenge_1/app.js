@@ -190,26 +190,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // CONTROLLERS
   // -------------------------------------------------------
-  // click handler for moves
-  const handleMoveClick = (e) => {
-    const clickedCell = e.target;
-    const row = clickedCell.getAttribute('id')[1];
-    const col = clickedCell.getAttribute('id')[3];
-    modelCurrentGame.addMove(row, col);
-  };
+  const controllers = {
+    // click handler for moves
+    handleMoveClick: (e) => {
+      const clickedCell = e.target;
+      const row = clickedCell.getAttribute('id')[1];
+      const col = clickedCell.getAttribute('id')[3];
+      modelCurrentGame.addMove(row, col);
+    },
 
-  // click handler for new game button
-  const handleNewGameButtonClick = () => {
-    modelResetGame();
-  };
-
-  // initializes app controllers
-  const initializeControllers = () => {
-    const grid = document.getElementById('grid');
-    grid.addEventListener('click', handleMoveClick);
-
-    const newGameButton = document.getElementById('new-game-btn');
-    newGameButton.addEventListener('click', handleNewGameButtonClick);
+    // click handler for new game button
+    handleNewGameButtonClick: () => {
+      modelResetGame();
+    },
   };
 
   // APP
@@ -217,6 +210,14 @@ window.addEventListener('DOMContentLoaded', () => {
   // initializes app
   (function initializeApp() {
     modelResetGame();
-    initializeControllers();
+
+    // initializes app controllers
+    (function initializeControllers() {
+      const grid = document.getElementById('grid');
+      grid.addEventListener('click', controllers.handleMoveClick);
+
+      const newGameButton = document.getElementById('new-game-btn');
+      newGameButton.addEventListener('click', controllers.handleNewGameButtonClick);
+    }());
   }());
 });
