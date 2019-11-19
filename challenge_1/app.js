@@ -87,7 +87,7 @@
       return false;
     }
 
-    hasDiagWin() {
+    hasMajorDiagWin() {
       const size = this._size;
       let row = 0;
       let col = 0;
@@ -108,8 +108,30 @@
       return false;
     }
 
+
+    hasMinorDiagWin() {
+      const size = this._size;
+      let row = 0;
+      let col = size - 1;
+      const firstCellMark = this._grid[row][col];
+      if (firstCellMark !== this._openMoveMark) {
+        while (row < size) {
+          const curCellMark = this._grid[row][col];
+          if (curCellMark !== firstCellMark) {
+            break;
+          }
+          row += 1;
+          col -= 1;
+          if (row === size) {
+            return firstCellMark;
+          }
+        }
+      }
+      return false;
+    }
+
     hasWin() {
-      return this.hasRowWin() || this.hasColWin() || this.hasDiagWin();
+      return this.hasRowWin() || this.hasColWin() || this.hasMajorDiagWin() || this.hasMinorDiagWin();
     }
 
     getStatus() {
