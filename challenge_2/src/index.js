@@ -3,7 +3,7 @@ const $ = require('jquery');
 window.addEventListener('DOMContentLoaded', () => {
   const $app = $('#app');
   const $form = $(`
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
     <div>
       <label for="jsoninput">Upload JSON file to translate to CSV</label>
       <input

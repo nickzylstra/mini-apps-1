@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const Busboy = require('busboy');
 
 const app = express();
 const port = 3000;
@@ -64,14 +65,31 @@ app.use('/', express.static('client'));
 // eslint-disable-next-line no-console
 app.listen(port, () => console.log(`server listening on ${port}`));
 
-app.post('/', express.urlencoded({ extended: true }), (req, res, next) => {
-  fs.readFile(path.join(__dirname, 'client', 'index.html'), (err, form) => {
-    if (err) {
-      console(err);
-      next();
-    }
-    const csv = jsonToCSV(req.body.jsoninput);
-    const page = form + csv;
-    res.status(200).send(page);
+const runBusBoy = (req, res, next) => {
+  const busboy = new Busboy({ headers: req.headers });
+  busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    console.log('Saving file');
+    const saveTo = path.join(__dirname, 'csvFiles', path.basename(fieldname));
+    file.pipe(fs.createWriteStream(saveTo));
   });
+  busboy.on('finish', () => {
+    console.log('File saved!');
+    next();
+  });
+  req.pipe(busboy);
+};
+
+app.post('/', runBusBoy, (req, res, next) => {
+  // debugger;
+  res.end();
+  // const formFilePath = path.join(__dirname, 'client', 'index.html');
+  // fs.readFile(formFilePath, (err, form) => {
+  //   if (err) {
+  //     console(err);
+  //     next();
+  //   }
+  //   const csv = jsonToCSV(req.body.jsoninput);
+  //   const page = form + csv;
+  //   res.status(200).send(page);
+  // });
 });
