@@ -74,7 +74,4 @@ app.post('/', express.urlencoded({ extended: true }), (req, res, next) => {
     const page = form + csv;
     res.status(200).send(page);
   });
-  // debugger;
-  // add functionality to send back to form after sending csv
-  // res.status(201).redirect('/');
 });
