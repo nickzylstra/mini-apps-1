@@ -12,6 +12,7 @@ class App extends React.Component {
       components: [
         Home,
         F1,
+        F2,
       ],
     };
     this.showNextComp = this.showNextComp.bind(this);
@@ -19,8 +20,9 @@ class App extends React.Component {
 
   showNextComp() {
     let { curComp } = this.state;
+    curComp += 1;
     this.setState({
-      curComp: curComp += 1,
+      curComp,
     });
   }
 
@@ -41,7 +43,14 @@ const Home = ({ showNextComp }) => (
 
 const F1 = ({ showNextComp }) => (
   <div>
-    hi
+    F1
+    <button type="button" onClick={showNextComp}>Next</button>
+  </div>
+);
+
+const F2 = ({ showNextComp }) => (
+  <div>
+    F2
   </div>
 );
 
