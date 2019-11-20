@@ -30,7 +30,7 @@ class App extends React.Component {
   }
 
   postData(formData) {
-    console.log('postdata');
+    console.log(`data posted for ${formData}`);
     this.showNextComp();
   }
 
@@ -52,6 +52,7 @@ const Home = ({ showNextComp }) => (
   </div>
 );
 
+// eslint-disable-next-line no-undef
 class F1 extends React.Component {
   constructor(props) {
     super(props);
@@ -74,6 +75,7 @@ class F1 extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { postData } = this.props;
+    postData(this.state);
   }
 
   render() {
