@@ -11,6 +11,7 @@
       "lastName": "Johnson",
       "county": "San Mateo",
       "city": "Pacifica",
+      "role": "Manager",
       "sales": 2900000,
       "children": [
         {
@@ -18,7 +19,6 @@
           "lastName": "Won",
           "county": "San Mateo",
           "city": "Redwood City",
-          "test": "test1",
           "role": "Sales Person",
           "sales": 4800000,
           "children": []
@@ -28,7 +28,6 @@
           "lastName": "Price",
           "county": "San Mateo",
           "city": "Burlingame",
-          "test": "test2",
           "role": "Sales Person",
           "sales": 2500000,
           "children": []
@@ -40,6 +39,7 @@
       "lastName": "Johnson",
       "county": "San Francisco",
       "city": "San Francisco",
+      "role": "Broker/Sales Person",
       "sales": 7500000,
       "children": []
     }
