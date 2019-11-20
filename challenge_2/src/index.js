@@ -5,14 +5,13 @@ window.addEventListener('DOMContentLoaded', () => {
   const $form = $(`
   <form method="POST">
     <div>
-      <label for="jsoninput">Input JSON to translate to CSV</label>
-      <textarea
-          rows="50"
-          cols="50"
+      <label for="jsoninput">Upload JSON file to translate to CSV</label>
+      <input
+          type="file"
           name="jsoninput"
           id="jsoninput"
-          placeholder="Input JSON..."
-        ></textarea>
+          accept=".json"
+        >
     </div>
     <div>
       <input type="submit" value="Submit">
