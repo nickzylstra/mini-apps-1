@@ -13,14 +13,17 @@ class App extends React.Component {
         Home,
         F1,
         F2,
+        F3,
+        Confirmation,
       ],
     };
     this.showNextComp = this.showNextComp.bind(this);
   }
 
   showNextComp() {
-    let { curComp } = this.state;
-    curComp += 1;
+    // eslint-disable-next-line prefer-const
+    let { curComp, components } = this.state;
+    curComp = curComp + 1 === components.length ? 0 : curComp += 1;
     this.setState({
       curComp,
     });
@@ -51,6 +54,21 @@ const F1 = ({ showNextComp }) => (
 const F2 = ({ showNextComp }) => (
   <div>
     F2
+    <button type="button" onClick={showNextComp}>Next</button>
+  </div>
+);
+
+const F3 = ({ showNextComp }) => (
+  <div>
+    F3
+    <button type="button" onClick={showNextComp}>Next</button>
+  </div>
+);
+
+const Confirmation = ({ showNextComp }) => (
+  <div>
+    Confirmation
+    <button type="button" onClick={showNextComp}>Purchase</button>
   </div>
 );
 
