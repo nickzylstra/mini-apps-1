@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -62,9 +64,16 @@ app.use('/', express.static('client'));
 // eslint-disable-next-line no-console
 app.listen(port, () => console.log(`server listening on ${port}`));
 
-app.post('/', express.urlencoded({ extended: true }), (req, res) => {
+app.post('/', express.urlencoded({ extended: true }), (req, res, next) => {
   const csv = jsonToCSV(req.body.jsoninput);
-  res.status(201).send(csv);
+  fs.readFile(path.join(__dirname, 'client', 'index.html'), (err, form) => {
+    if (err) {
+      console(err);
+      next();
+    }
+    const page = form + csv;
+    res.status(200).send(page);
+  });
   // debugger;
   // add functionality to send back to form after sending csv
   // res.status(201).redirect('/');
