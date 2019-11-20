@@ -1,0 +1,47 @@
+{
+    "firstName": "Joshie",
+    "lastName": "Wyattson",
+    "county": "San Mateo",
+    "city": "San Mateo",
+    "role": "Broker",
+    "sales": 1000000,
+    "children": [
+    {
+      "firstName": "Beth Jr.",
+      "lastName": "Johnson",
+      "county": "San Mateo",
+      "city": "Pacifica",
+      "sales": 2900000,
+      "children": [
+        {
+          "firstName": "Smitty",
+          "lastName": "Won",
+          "county": "San Mateo",
+          "city": "Redwood City",
+          "test": "test1",
+          "role": "Sales Person",
+          "sales": 4800000,
+          "children": []
+        },
+        {
+          "firstName": "Allen",
+          "lastName": "Price",
+          "county": "San Mateo",
+          "city": "Burlingame",
+          "test": "test2",
+          "role": "Sales Person",
+          "sales": 2500000,
+          "children": []
+        }
+      ]
+    },
+    {
+      "firstName": "Beth",
+      "lastName": "Johnson",
+      "county": "San Francisco",
+      "city": "San Francisco",
+      "sales": 7500000,
+      "children": []
+    }
+  ]
+};

@@ -22,7 +22,6 @@ const jsonToCSV = (json) => {
         for (let i = 0; i < flatObj.objCount; i += 1) {
           flatObj[oKey].push('');
         }
-        flatObj[oKey].push(obj[oKey]);
       }
     });
 
@@ -48,12 +47,15 @@ const jsonToCSV = (json) => {
   };
 
   const flattenedObj = flattenObj(parsed);
+  const cols = Object.keys(flattenedObj).filter((col) => col !== 'objCount');
+  let csv = `${cols.join(',')}\n`;
 
-  // let csv = passedCSV;
-  // csv += passedCols.filter((col) => col !== 'children').join(',');
-  // csv += '\n';
-  debugger;
-  return;
+  for (let i = 0; i < cols.length; i += 1) {
+    const col = cols[i];
+    csv += `${flattenedObj[col].join(',')}\n`;
+  }
+
+  return csv;
 };
 
 app.use('/', express.static('client'));
