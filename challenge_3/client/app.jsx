@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-use-before-define */
 /* eslint-disable max-classes-per-file */
@@ -18,22 +19,29 @@ class App extends React.Component {
       ],
     };
     this.showNextComp = this.showNextComp.bind(this);
+    this.postData = this.postData.bind(this);
   }
 
   showNextComp() {
     // eslint-disable-next-line prefer-const
     let { curComp, components } = this.state;
     curComp = curComp + 1 === components.length ? 0 : curComp += 1;
-    this.setState({
-      curComp,
-    });
+    this.setState({ curComp });
+  }
+
+  postData(formData) {
+    console.log('postdata');
+    this.showNextComp();
   }
 
   render() {
     const { curComp, components } = this.state;
     const Comp = components[curComp];
     return (
-      <Comp showNextComp={this.showNextComp} />
+      <Comp
+        showNextComp={this.showNextComp}
+        postData={this.postData}
+      />
     );
   }
 }
@@ -44,12 +52,74 @@ const Home = ({ showNextComp }) => (
   </div>
 );
 
-const F1 = ({ showNextComp }) => (
-  <div>
-    F1
-    <button type="button" onClick={showNextComp}>Next</button>
-  </div>
-);
+class F1 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e) {
+    const { target } = e;
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const { postData } = this.props;
+  }
+
+  render() {
+    return (
+      <div>
+        F1
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            name:
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              onChange={this.handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            email:
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              onChange={this.handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            password:
+            <input
+              type="password"
+              name="password"
+              id="password"
+              required
+              onChange={this.handleChange}
+            />
+          </label>
+          <br />
+          <input type="submit" value="Next" />
+        </form>
+      </div>
+    );
+  }
+}
 
 const F2 = ({ showNextComp }) => (
   <div>
