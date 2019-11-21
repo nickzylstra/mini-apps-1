@@ -13,6 +13,14 @@ module.exports.post = (data, next) => {
       }
     });
   } else {
-    next();
+    const {
+      id, name, email, password,
+    } = data;
+    Order.find({ _id: id }, (err, orders) => {
+      if (err) {
+        next(err);
+      }
+      debugger;
+    });
   }
 };

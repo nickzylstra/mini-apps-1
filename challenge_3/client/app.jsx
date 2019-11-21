@@ -33,6 +33,11 @@ class App extends React.Component {
   }
 
   sendForm(form, formData = {}) {
+    const { id } = this.state;
+    if (id) {
+      // eslint-disable-next-line no-param-reassign
+      formData.id = id;
+    }
     const url = form;
     fetch(url, {
       method: 'POST',
@@ -43,6 +48,7 @@ class App extends React.Component {
     })
       .then((res) => res.json())
       .then(
+        // eslint-disable-next-line no-shadow
         ({ id }) => {
           this.setState({
             id,

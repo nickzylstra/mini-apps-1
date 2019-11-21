@@ -17,6 +17,7 @@ app.post('/Home', (req, res, next) => {
     if (err) {
       console.log(err);
       res.end(err);
+      next();
     }
     console.log(`new user created with id: ${id}`);
     res.end(JSON.stringify({ id }));
@@ -26,7 +27,14 @@ app.post('/Home', (req, res, next) => {
 
 app.post('/F1', (req, res, next) => {
   console.log('F1 data received');
-  const data = { id: '00045' };
-  res.end(JSON.stringify(data));
-  next();
+  post(req.body, (err, id) => {
+    if (err) {
+      console.log(err);
+      res.end(err);
+      next();
+    }
+    console.log(`F1 data added to id: ${id}`);
+    res.end(JSON.stringify({ id }));
+    next();
+  });
 });
