@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './client/index.js',
+  entry: './client/app.jsx',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'public'),
@@ -9,7 +9,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /(\.m?js$|.m?jsx$)/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

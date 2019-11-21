@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon --inspect server/server.js",
+    "start:dev": "nodemon --inspect server/server.js --ignore=node_modules",
     "build:dev": "webpack -w -d --config webpack.config.js"
   },
   "author": "",
@@ -24,6 +24,9 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.7.1",
-    "@babel/preset-react": "^7.7.0"
+    "@babel/preset-react": "^7.7.0",
+    "express": "^4.17.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   }
 }
