@@ -10,6 +10,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      // TODO replace userId with cookie
       userId: null,
       curComp: 0,
       components: [
@@ -31,7 +32,7 @@ class App extends React.Component {
     this.setState({ curComp });
   }
 
-  sendForm(form, formData) {
+  sendForm(form, formData = {}) {
     const url = form;
     fetch(url, {
       method: 'POST',
@@ -69,22 +70,11 @@ class App extends React.Component {
   }
 }
 
-const Home = ({ showNextComp }) => (
+const Home = ({ sendForm }) => (
   <div>
-    <button type="button" onClick={showNextComp}>Checkout</button>
+    <button type="button" onClick={() => sendForm('Home')}>Checkout</button>
   </div>
 );
-
-// async function postData(url = '', data = {}) {
-//   const res = await fetch(url, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(data),
-//   });
-//   return res.json();
-// }
 
 // eslint-disable-next-line no-undef
 class F1 extends React.Component {
