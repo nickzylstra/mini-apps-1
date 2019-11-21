@@ -9,6 +9,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      userId: null,
       curComp: 0,
       components: [
         Home,
@@ -19,7 +20,7 @@ class App extends React.Component {
       ],
     };
     this.showNextComp = this.showNextComp.bind(this);
-    this.postData = this.postData.bind(this);
+    this.sendForm = this.sendForm.bind(this);
   }
 
   showNextComp() {
@@ -29,18 +30,39 @@ class App extends React.Component {
     this.setState({ curComp });
   }
 
-  postData(formData) {
-    console.log(`data posted for ${formData}`);
-    this.showNextComp();
+  sendForm(form, formData) {
+    const url = form;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then(
+        ({ userId }) => {
+          this.setState({
+            userId,
+          });
+          this.showNextComp();
+          console.log(`data posted for user: ${userId}`);
+        },
+        (err) => {
+          // TODO redirect to error page
+          console.log(err);
+        },
+      );
   }
 
   render() {
-    const { curComp, components } = this.state;
+    const { curComp, components, userId } = this.state;
     const Comp = components[curComp];
     return (
       <Comp
         showNextComp={this.showNextComp}
-        postData={this.postData}
+        sendForm={this.sendForm}
+        userId={userId}
       />
     );
   }
@@ -51,6 +73,17 @@ const Home = ({ showNextComp }) => (
     <button type="button" onClick={showNextComp}>Checkout</button>
   </div>
 );
+
+// async function postData(url = '', data = {}) {
+//   const res = await fetch(url, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(data),
+//   });
+//   return res.json();
+// }
 
 // eslint-disable-next-line no-undef
 class F1 extends React.Component {
@@ -74,8 +107,8 @@ class F1 extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { postData } = this.props;
-    postData(this.state);
+    const { sendForm } = this.props;
+    sendForm('F1', this.state);
   }
 
   render() {
