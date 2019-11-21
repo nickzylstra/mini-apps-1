@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const { ObjectId } = Schema;
 
 mongoose.connect('mongodb://localhost/my_database', {
   useNewUrlParser: true,
