@@ -12,5 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyparser.json());
 
 app.post('/f1', (req, res, next) => {
-  debugger;
+  // debugger;
+  const data = { userId: '00045' };
+  res.end(JSON.stringify(data));
 });

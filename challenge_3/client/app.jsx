@@ -47,7 +47,7 @@ class App extends React.Component {
             userId,
           });
           this.showNextComp();
-          console.log(`data posted for user: ${userId}`);
+          console.log(`${form} form data posted for user: ${userId}`);
         },
         (err) => {
           // TODO redirect to error page
