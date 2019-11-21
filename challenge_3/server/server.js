@@ -2,7 +2,8 @@
 const express = require('express');
 const path = require('path');
 const bodyparser = require('body-parser');
-const model = require('./model');
+const db = require('./model');
+const { post } = require('./controller');
 
 const app = express();
 const port = 3000;
@@ -12,13 +13,20 @@ app.use(bodyparser.json());
 
 app.post('/Home', (req, res, next) => {
   // TODO replace userId with cookie
-  console.log('new user requested');
-  const data = { userId: '00045' };
-  res.end(JSON.stringify(data));
+  post(null, (err, id) => {
+    if (err) {
+      console.log(err);
+      res.end(err);
+    }
+    console.log(`new user created with id: ${id}`);
+    res.end(JSON.stringify({ id }));
+    next();
+  });
 });
 
 app.post('/F1', (req, res, next) => {
-  console.log('F1 submitted');
-  const data = { userId: '00045' };
+  console.log('F1 data received');
+  const data = { id: '00045' };
   res.end(JSON.stringify(data));
+  next();
 });

@@ -10,8 +10,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      // TODO replace userId with cookie
-      userId: null,
+      // TODO replace id with cookie
+      id: null,
       curComp: 0,
       components: [
         Home,
@@ -43,12 +43,12 @@ class App extends React.Component {
     })
       .then((res) => res.json())
       .then(
-        ({ userId }) => {
+        ({ id }) => {
           this.setState({
-            userId,
+            id,
           });
           this.showNextComp();
-          console.log(`${form} form data posted for user: ${userId}`);
+          console.log(`${form} form data posted for user: ${id}`);
         },
         (err) => {
           // TODO redirect to error page
@@ -58,13 +58,13 @@ class App extends React.Component {
   }
 
   render() {
-    const { curComp, components, userId } = this.state;
+    const { curComp, components, id } = this.state;
     const Comp = components[curComp];
     return (
       <Comp
         showNextComp={this.showNextComp}
         sendForm={this.sendForm}
-        userId={userId}
+        id={id}
       />
     );
   }
