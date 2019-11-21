@@ -1,37 +1,33 @@
 /* eslint-disable no-console */
 const Order = require('./model');
 
+const updateOrder = (order, next) => {
+  order.save()
+    .then((newOrder) => {
+      next(null, newOrder.id);
+    }, (err) => {
+      console.log(err);
+      next(err, null);
+    });
+};
+
 module.exports.post = (data, next) => {
   if (!data) {
     const order = new Order();
-    order.save((err, newOrder) => {
-      if (err) {
-        console.log(err);
-        next(err, null);
-      } else {
-        next(null, newOrder.id);
-      }
-    });
+    updateOrder(order, next);
   } else {
     const {
       id, name, email, password,
     } = data;
 
-    Order.find({ _id: id }, (err, [order]) => {
-      if (err) {
+    Order.find({ _id: id })
+      .then(([order]) => {
+        order.name = name;
+        order.email = email;
+        order.password = password;
+        updateOrder(order, next);
+      }, (err) => {
         next(err);
-      }
-      order.name = name;
-      order.email = email;
-      order.password = password;
-      order.save((err, newOrder) => {
-        if (err) {
-          console.log(err);
-          next(err, null);
-        } else {
-          next(null, newOrder.id);
-        }
       });
-    });
   }
 };
