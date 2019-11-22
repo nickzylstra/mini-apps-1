@@ -8,6 +8,7 @@ class Board extends React.Component {
     const height = 6;
     const grid = [];
     const openVal = 'open';
+    const players = ['Red', 'Black'];
     for (let i = 0; i < height; i += 1) {
       grid.push([]);
       for (let j = 0; j < width; j += 1) {
@@ -19,6 +20,9 @@ class Board extends React.Component {
       openVal,
       height,
       width,
+      turn: 0,
+      curPlayer: players[0],
+      players,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -36,7 +40,7 @@ class Board extends React.Component {
 
   addMove(col) {
     const {
-      grid, height, openVal, curPlayer = 'Red',
+      grid, height, openVal, curPlayer,
     } = this.state;
     let didAddMove = false;
 
