@@ -56,13 +56,13 @@ class Board extends React.Component {
   }
 
   render() {
-    const { grid } = this.state;
+    const { grid, width } = this.state;
     return (
       <div>
         <table className="table">
           <thead>
             <tr>
-              <th>Make a move</th>
+              <th colSpan={width}>Connect 4!</th>
             </tr>
           </thead>
           <tbody>
