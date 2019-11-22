@@ -40,7 +40,7 @@ class Board extends React.Component {
       return;
     }
 
-    if (this.hasWin(rowAffected, col)) {
+    if (this.hasAnyWin(rowAffected, col)) {
       return;
     }
 
@@ -68,7 +68,26 @@ class Board extends React.Component {
     return rowAffected;
   }
 
-  hasWin(row, col) {
+  hasAnyWin(row, col) {
+    const { status, curPlayer } = this.state;
+    const hasWin = this.hasRowWin(row) || this.hasColWin(col) || this.hasDiagWin(row, col);
+    if (hasWin) {
+      this.setState({
+        status: `${curPlayer} wins!`,
+      });
+    }
+    return hasWin;
+  }
+
+  hasRowWin(row) {
+    return true;
+  }
+
+  hasColWin(col) {
+
+  }
+
+  hasDiagWin(row, col) {
 
   }
 
