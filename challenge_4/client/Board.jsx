@@ -122,7 +122,42 @@ class Board extends React.Component {
   }
 
   hasDiagWin(row, col) {
+    if (this.hasDiagWinPart(row, col, [1, 1])) {
+      return true;
+    }
+    if (this.hasDiagWinPart(row, col, [1, -1])) {
+      return true;
+    }
+    if (this.hasDiagWinPart(row, col, [-1, 1])) {
+      return true;
+    }
+    if (this.hasDiagWinPart(row, col, [-1, -1])) {
+      return true;
+    }
+    return false;
+  }
 
+  hasDiagWinPart(row, col, dirs) {
+    const { grid, openVal } = this.state;
+    let sameCount = 1;
+    let curPlayer = grid[row][col];
+    for (let i = 1; i < 4; i += 1) {
+      if (!grid[row + i * dirs[0]]) {
+        break;
+      }
+      const cell = grid[row + i * dirs[0]][col + i * dirs[1]];
+      if (cell === curPlayer && cell !== openVal) {
+        sameCount += 1;
+      } else {
+        sameCount = 1;
+        curPlayer = cell;
+      }
+
+      if (sameCount === 4) {
+        return true;
+      }
+    }
+    return false;
   }
 
   incrementTurn() {
