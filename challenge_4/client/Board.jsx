@@ -30,7 +30,7 @@ class Board extends React.Component {
   }
 
   handleClick(col) {
-    const { status } = this.state;
+    const { status, turn } = this.state;
     if (status !== 'in progress') {
       return;
     }
@@ -69,8 +69,9 @@ class Board extends React.Component {
   }
 
   hasAnyWin(row, col) {
-    const { status, curPlayer } = this.state;
+    const { curPlayer } = this.state;
     const hasWin = this.hasRowWin(row) || this.hasColWin(col) || this.hasDiagWin(row, col);
+    // TODO move to increment turn
     if (hasWin) {
       this.setState({
         status: `${curPlayer} wins!`,
@@ -80,7 +81,21 @@ class Board extends React.Component {
   }
 
   hasRowWin(row) {
-    return true;
+    const { grid, width } = this.state;
+    let sameCount = 1;
+    const curPlayer = grid[row][0];
+    for (let i = 1; i < width; i += 1) {
+      if (grid[row][i] === curPlayer) {
+        sameCount += 1;
+      } else {
+        sameCount = 1;
+      }
+
+      if (sameCount === 4) {
+        return true;
+      }
+    }
+    return false;
   }
 
   hasColWin(col) {
@@ -92,14 +107,23 @@ class Board extends React.Component {
   }
 
   incrementTurn() {
-    const { players, turn } = this.state;
+    const {
+      players, turn, width, height, status,
+    } = this.state;
     const curPlayer = turn % 2 === 0 ? players[1] : players[0];
+    const nextTurn = turn + 1;
+    let newStatus = status;
+
+    if (nextTurn === width * height) {
+      newStatus = 'stalemate!';
+    }
+
     this.setState({
       curPlayer,
-      turn: turn + 1,
+      turn: nextTurn,
+      status: newStatus,
     });
   }
-
 
   render() {
     const { grid, width, status } = this.state;
