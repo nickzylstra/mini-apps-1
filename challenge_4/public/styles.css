@@ -1,8 +1,17 @@
 .cell {
-  background: tan solid;
   border: 3px blue solid;
   width: 40px;
   height: 40px;
+}
+
+.Red {
+  border-color: red;
+  background-color: red;
+}
+
+.Black {
+  border-color: black;
+  background-color: black;
 }
 
 .table {

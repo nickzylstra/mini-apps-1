@@ -7,7 +7,7 @@ const Row = ({ row, handleClick }) => (
   row.map((cell, col) => (
     <td
       key={col}
-      className="cell"
+      className={`cell ${cell}`}
       onClick={() => handleClick(col)}
     >
       {cell}
