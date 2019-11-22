@@ -83,13 +83,14 @@ class Board extends React.Component {
   hasRowWin(row) {
     const { grid, width, openVal } = this.state;
     let sameCount = 1;
-    const curPlayer = grid[row][0];
+    let curPlayer = grid[row][0];
     for (let i = 1; i < width; i += 1) {
       const curCell = grid[row][i];
       if (curCell === curPlayer && curCell !== openVal) {
         sameCount += 1;
       } else {
         sameCount = 1;
+        curPlayer = curCell;
       }
 
       if (sameCount === 4) {
@@ -102,13 +103,14 @@ class Board extends React.Component {
   hasColWin(col) {
     const { grid, height, openVal } = this.state;
     let sameCount = 1;
-    const curPlayer = grid[0][col];
+    let curPlayer = grid[0][col];
     for (let i = 1; i < height; i += 1) {
       const curCell = grid[i][col];
       if (curCell === curPlayer && curCell !== openVal) {
         sameCount += 1;
       } else {
         sameCount = 1;
+        curPlayer = curCell;
       }
 
       if (sameCount === 4) {
