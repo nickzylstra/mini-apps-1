@@ -29,34 +29,40 @@ class Board extends React.Component {
   }
 
   handleClick(col) {
-    const didAddMove = this.addMove(col);
-    if (didAddMove) {
-      // TODO - update status
-      const { grid } = this.state;
-      const newState = { grid };
-      this.setState(newState);
+    const rowAffected = this.addMove(col);
+    if (rowAffected) {
+      this.incrementTurn();
     }
+  }
+
+  incrementTurn() {
+    const { players, turn } = this.state;
+    const curPlayer = turn % 2 === 0 ? players[1] : players[0];
+    this.setState({
+      curPlayer,
+      turn: turn + 1,
+    });
   }
 
   addMove(col) {
     const {
       grid, height, openVal, curPlayer,
     } = this.state;
-    let didAddMove = false;
+    let rowAffected = null;
 
     let row = height - 1;
     while (row >= 0) {
       const rowCells = grid[row];
       if (rowCells[col] === openVal) {
         rowCells[col] = curPlayer;
-        didAddMove = true;
+        rowAffected = row;
         this.setState({ grid });
         break;
       }
       row -= 1;
     }
 
-    return didAddMove;
+    return rowAffected;
   }
 
   render() {
