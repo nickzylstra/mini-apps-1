@@ -1,4 +1,5 @@
 import React from 'react';
+import Grid from './Grid.jsx';
 
 class Board extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class Board extends React.Component {
     for (let i = 0; i < height; i += 1) {
       grid.push([]);
       for (let j = 0; j < width; j += 1) {
-        grid[i].push(false);
+        grid[i].push(openVal);
       }
     }
     this.state = {
@@ -40,24 +41,8 @@ class Board extends React.Component {
     return moveAdded;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  renderRow(row) {
-    return row.map((cell, idx) => (
-      <td className="cell">{cell}</td>
-    ));
-  }
-
-  renderGrid() {
-    const { grid } = this.state;
-    return grid.map((row, idx) => (
-      <tr>
-        {this.renderRow(row)}
-      </tr>
-    ));
-  }
-
   render() {
-    const { width, grid, height } = this.state;
+    const { grid } = this.state;
     return (
       <div>
         <table className="table">
@@ -67,7 +52,7 @@ class Board extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.renderGrid()}
+            <Grid grid={grid} />
           </tbody>
         </table>
       </div>
