@@ -23,25 +23,28 @@ class Board extends React.Component {
       turn: 0,
       curPlayer: players[0],
       players,
+      status: 'in progress',
     };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(col) {
-    const rowAffected = this.addMove(col);
-    if (rowAffected) {
-      this.incrementTurn();
+    const { status } = this.state;
+    if (status !== 'in progress') {
+      return;
     }
-  }
 
-  incrementTurn() {
-    const { players, turn } = this.state;
-    const curPlayer = turn % 2 === 0 ? players[1] : players[0];
-    this.setState({
-      curPlayer,
-      turn: turn + 1,
-    });
+    const rowAffected = this.addMove(col);
+    if (!rowAffected) {
+      return;
+    }
+
+    if (this.hasWin(rowAffected, col)) {
+      return;
+    }
+
+    this.incrementTurn();
   }
 
   addMove(col) {
@@ -65,14 +68,31 @@ class Board extends React.Component {
     return rowAffected;
   }
 
+  hasWin(row, col) {
+
+  }
+
+  incrementTurn() {
+    const { players, turn } = this.state;
+    const curPlayer = turn % 2 === 0 ? players[1] : players[0];
+    this.setState({
+      curPlayer,
+      turn: turn + 1,
+    });
+  }
+
+
   render() {
-    const { grid, width } = this.state;
+    const { grid, width, status } = this.state;
     return (
       <div>
         <table className="table">
           <thead>
             <tr>
-              <th colSpan={width}>Connect 4!</th>
+              <th colSpan={width}>
+                Connect 4!  ...
+                {status}
+              </th>
             </tr>
           </thead>
           <tbody>
