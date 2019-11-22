@@ -20,6 +20,15 @@ class Board extends React.Component {
       height,
       width,
     };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(row, col) {
+    const { grid } = this.state;
+    debugger;
+    const newState = { grid };
+    this.setState(newState);
   }
 
   addMove(col, player) {
@@ -52,7 +61,7 @@ class Board extends React.Component {
             </tr>
           </thead>
           <tbody>
-            <Grid grid={grid} />
+            <Grid grid={grid} handleClick={this.handleClick} />
           </tbody>
         </table>
       </div>

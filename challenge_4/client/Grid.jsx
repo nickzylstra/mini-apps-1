@@ -1,10 +1,11 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import Row from './Row.jsx';
 
-const Grid = ({ grid }) => (
-  grid.map((row, key) => (
-    <tr>
-      <Row row={row} />
+const Grid = ({ grid, handleClick }) => (
+  grid.map((row, rowNum) => (
+    <tr key={rowNum}>
+      <Row row={row} rowNum={rowNum} handleClick={handleClick} />
     </tr>
   ))
 );
