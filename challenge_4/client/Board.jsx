@@ -31,7 +31,7 @@ class Board extends React.Component {
   }
 
   handleClick(col) {
-    const { status, turn } = this.state;
+    const { status } = this.state;
     if (status !== 'in progress') {
       return;
     }
