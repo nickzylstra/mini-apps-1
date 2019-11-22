@@ -24,30 +24,35 @@ class Board extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(row, col) {
-    const { grid } = this.state;
-    debugger;
-    const newState = { grid };
-    this.setState(newState);
+  handleClick(col) {
+    const didAddMove = this.addMove(col);
+    if (didAddMove) {
+      // TODO - update status
+      const { grid } = this.state;
+      const newState = { grid };
+      this.setState(newState);
+    }
   }
 
-  addMove(col, player) {
-    // UPDATE
-    const { grid, height } = this.state;
-    let moveAdded = false;
-    const colMoves = grid[col];
+  addMove(col) {
+    const {
+      grid, height, openVal, curPlayer = 'Red',
+    } = this.state;
+    let didAddMove = false;
 
-    let row = 0;
-    while (row < height) {
-      if (!colMoves[row]) {
-        colMoves[row] = player;
-        moveAdded = true;
+    let row = height - 1;
+    while (row >= 0) {
+      const rowCells = grid[row];
+      if (rowCells[col] === openVal) {
+        rowCells[col] = curPlayer;
+        didAddMove = true;
+        this.setState({ grid });
         break;
       }
-      row += 1;
+      row -= 1;
     }
 
-    return moveAdded;
+    return didAddMove;
   }
 
   render() {

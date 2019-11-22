@@ -3,12 +3,12 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 
-const Row = ({ row, rowNum, handleClick }) => (
+const Row = ({ row, handleClick }) => (
   row.map((cell, col) => (
     <td
       key={col}
       className="cell"
-      onClick={() => handleClick(rowNum, col)}
+      onClick={() => handleClick(col)}
     >
       {cell}
     </td>

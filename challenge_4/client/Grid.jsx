@@ -5,7 +5,7 @@ import Row from './Row.jsx';
 const Grid = ({ grid, handleClick }) => (
   grid.map((row, rowNum) => (
     <tr key={rowNum}>
-      <Row row={row} rowNum={rowNum} handleClick={handleClick} />
+      <Row row={row} handleClick={handleClick} />
     </tr>
   ))
 );
